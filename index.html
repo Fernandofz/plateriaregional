@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Platería Regional - Mates Artesanales en Alpaca</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Open+Sans:wght@300;400;600&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Navegación -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="#" class="logo">🧉 Platería Regional</a>
+            <ul class="nav-links">
+                <li><a href="#inicio">Inicio</a></li>
+                <li><a href="#galeria">Galería</a></li>
+                <li><a href="#configurador">Armar tu Mate</a></li>
+                <li><a href="#contacto">Contacto</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="inicio" class="hero">
+        <div class="hero-overlay"></div>
+        <div class="hero-content">
+            <h1>Platería Regional</h1>
+            <p>Mates artesanales con alma correntina. Creados a mano con alpaca de primera calidad, inspirados en la magia de los Esteros del Iberá.</p>
+            <a href="#configurador" class="btn-primary">Armá tu Mate Personalizado</a>
+        </div>
+        <div class="scroll-indicator">
+            <span>↓</span>
+        </div>
+    </section>
+
+    <!-- Características -->
+    <section class="features">
+        <div class="container">
+            <div class="feature">
+                <div class="feature-icon">🌿</div>
+                <h3>100% Artesanal</h3>
+                <p>Cada pieza es única, trabajada a mano por artesanos locales con técnicas tradicionales.</p>
+            </div>
+            <div class="feature">
+                <div class="feature-icon">✨</div>
+                <h3>Alpaca Premium</h3>
+                <p>Utilizamos alpaca de primera calidad para los detalles: bordes, bases, letras y bombillas.</p>
+            </div>
+            <div class="feature">
+                <div class="feature-icon">🎨</div>
+                <h3>Personalización Total</h3>
+                <p>Elegí tamaño, cuero, detalles y bombilla. Tu mate, a tu manera.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Galería -->
+    <section id="galeria" class="gallery">
+        <div class="container">
+            <h2 class="section-title">Nuestros Trabajos</h2>
+            <p class="section-subtitle">Seguinos en <a href="https://www.instagram.com/plateria_regional/" target="_blank" rel="noopener">@plateria_regional</a> para ver más</p>
+            <div class="gallery-grid">
+                <div class="gallery-item">
+                    <img src="https://images.unsplash.com/photo-1585401738822-21e9e3a77b44?w=400&h=300&fit=crop" alt="Mate artesanal con bombilla">
+                    <div class="gallery-overlay">
+                        <span>Mates con detalles en alpaca</span>
+                    </div>
+                </div>
+                <div class="gallery-item">
+                    <img src="https://images.unsplash.com/photo-1558642452-9d2a7deb7f62?w=400&h=300&fit=crop" alt="Artesanía argentina">
+                    <div class="gallery-overlay">
+                        <span>Tradición en cada sorbo</span>
+                    </div>
+                </div>
+                <div class="gallery-item">
+                    <img src="https://images.unsplash.com/photo-1609205807107-2844b2d0cf04?w=400&h=300&fit=crop" alt="Esteros del Iberá">
+                    <div class="gallery-overlay">
+                        <span>Inspirados en el Iberá</span>
+                    </div>
+                </div>
+                <div class="gallery-item">
+                    <img src="https://images.unsplash.com/photo-1603569283847-aa295f0d016a?w=400&h=300&fit=crop" alt="Mate y termo">
+                    <div class="gallery-overlay">
+                        <span>El ritual del mate</span>
+                    </div>
+                </div>
+                <div class="gallery-item">
+                    <img src="https://images.unsplash.com/photo-1544550581-5f7ceaf7f992?w=400&h=300&fit=crop" alt="Cuero artesanal">
+                    <div class="gallery-overlay">
+                        <span>Forrado en cuero premium</span>
+                    </div>
+                </div>
+                <div class="gallery-item">
+                    <img src="https://images.unsplash.com/photo-1590080875515-8a3a8dc5735e?w=400&h=300&fit=crop" alt="Atardecer en Corrientes">
+                    <div class="gallery-overlay">
+                        <span>Atardeceres correntinos</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Configurador de Mate -->
+    <section id="configurador" class="configurator">
+        <div class="container">
+            <h2 class="section-title">Armá tu Mate Personalizado</h2>
+            <p class="section-subtitle">Seguí los pasos y creá tu mate único</p>
+            
+            <!-- Progress Bar -->
+            <div class="progress-bar">
+                <div class="progress-step active" data-step="1">
+                    <div class="step-number">1</div>
+                    <span>Porongo</span>
+                </div>
+                <div class="progress-line"></div>
+                <div class="progress-step" data-step="2">
+                    <div class="step-number">2</div>
+                    <span>Accesorios</span>
+                </div>
+                <div class="progress-line"></div>
+                <div class="progress-step" data-step="3">
+                    <div class="step-number">3</div>
+                    <span>Bombilla</span>
+                </div>
+                <div class="progress-line"></div>
+                <div class="progress-step" data-step="4">
+                    <div class="step-number">4</div>
+                    <span>Resumen</span>
+                </div>
+            </div>
+
+            <!-- Configurator Steps -->
+            <div class="configurator-content">
+                <!-- Paso 1: Tamaño del Porongo -->
+                <div class="config-step active" id="step1">
+                    <h3>Elegí el tamaño de tu porongo</h3>
+                    <div class="options-grid size-options">
+                        <div class="option-card" data-value="chico" data-price="8000">
+                            <div class="option-icon">🧉</div>
+                            <h4>Chico</h4>
+                            <p>Ideal para mates cortos y personales</p>
+                            <span class="price">$8.000</span>
+                        </div>
+                        <div class="option-card" data-value="mediano" data-price="12000">
+                            <div class="option-icon">🧉</div>
+                            <h4>Mediano</h4>
+                            <p>El clásico, perfecto para el día a día</p>
+                            <span class="price">$12.000</span>
+                        </div>
+                        <div class="option-card" data-value="grande" data-price="16000">
+                            <div class="option-icon">🧉</div>
+                            <h4>Grande</h4>
+                            <p>Para los materos de alma, rondas largas</p>
+                            <span class="price">$16.000</span>
+                        </div>
+                    </div>
+                    <div class="step-navigation">
+                        <button type="button" class="btn-next" onclick="nextStep()" disabled>Siguiente →</button>
+                    </div>
+                </div>
+
+                <!-- Paso 2: Accesorios de Alpaca -->
+                <div class="config-step" id="step2">
+                    <h3>Personalizá con accesorios de alpaca</h3>
+                    
+                    <div class="accessory-group">
+                        <h4>Cuero</h4>
+                        <div class="options-row">
+                            <div class="option-card small" data-category="cuero" data-value="sin" data-price="0">
+                                <span class="option-label">Sin cuero</span>
+                                <span class="price">+$0</span>
+                            </div>
+                            <div class="option-card small" data-category="cuero" data-value="marron" data-price="3000">
+                                <span class="option-label">🟤 Marrón</span>
+                                <span class="price">+$3.000</span>
+                            </div>
+                            <div class="option-card small" data-category="cuero" data-value="negro" data-price="3000">
+                                <span class="option-label">⚫ Negro</span>
+                                <span class="price">+$3.000</span>
+                            </div>
+                            <div class="option-card small" data-category="cuero" data-value="natural" data-price="3500">
+                                <span class="option-label">🟡 Natural</span>
+                                <span class="price">+$3.500</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="accessory-group">
+                        <h4>Borde de Alpaca</h4>
+                        <div class="options-row">
+                            <div class="option-card small" data-category="borde" data-value="sin" data-price="0">
+                                <span class="option-label">Sin borde</span>
+                                <span class="price">+$0</span>
+                            </div>
+                            <div class="option-card small" data-category="borde" data-value="simple" data-price="2500">
+                                <span class="option-label">✨ Simple</span>
+                                <span class="price">+$2.500</span>
+                            </div>
+                            <div class="option-card small" data-category="borde" data-value="labrado" data-price="4000">
+                                <span class="option-label">🌟 Labrado</span>
+                                <span class="price">+$4.000</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="accessory-group">
+                        <h4>Base de Alpaca</h4>
+                        <div class="options-row">
+                            <div class="option-card small" data-category="base" data-value="sin" data-price="0">
+                                <span class="option-label">Sin base</span>
+                                <span class="price">+$0</span>
+                            </div>
+                            <div class="option-card small" data-category="base" data-value="simple" data-price="2000">
+                                <span class="option-label">✨ Simple</span>
+                                <span class="price">+$2.000</span>
+                            </div>
+                            <div class="option-card small" data-category="base" data-value="labrada" data-price="3500">
+                                <span class="option-label">🌟 Labrada</span>
+                                <span class="price">+$3.500</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="accessory-group">
+                        <h4>Letras en Alpaca</h4>
+                        <div class="options-row letters-row">
+                            <div class="option-card small" data-category="letras" data-value="sin" data-price="0">
+                                <span class="option-label">Sin letras</span>
+                                <span class="price">+$0</span>
+                            </div>
+                            <div class="option-card small" data-category="letras" data-value="1" data-price="1500">
+                                <span class="option-label">1 Letra</span>
+                                <span class="price">+$1.500</span>
+                            </div>
+                            <div class="option-card small" data-category="letras" data-value="2" data-price="2500">
+                                <span class="option-label">2 Letras</span>
+                                <span class="price">+$2.500</span>
+                            </div>
+                            <div class="option-card small" data-category="letras" data-value="3" data-price="3500">
+                                <span class="option-label">3 Letras</span>
+                                <span class="price">+$3.500</span>
+                            </div>
+                        </div>
+                        <div class="letter-input hidden" id="letterInput">
+                            <label>Ingresá las letras:</label>
+                            <input type="text" id="letrasTexto" maxlength="3" placeholder="ABC">
+                        </div>
+                    </div>
+
+                    <div class="step-navigation">
+                        <button type="button" class="btn-prev" onclick="prevStep()">← Anterior</button>
+                        <button type="button" class="btn-next" onclick="nextStep()">Siguiente →</button>
+                    </div>
+                </div>
+
+                <!-- Paso 3: Bombilla -->
+                <div class="config-step" id="step3">
+                    <h3>Elegí tu bombilla de alpaca</h3>
+                    
+                    <div class="accessory-group">
+                        <h4>Tipo de Bombilla</h4>
+                        <div class="options-row">
+                            <div class="option-card" data-category="bombilla-tipo" data-value="recta" data-price="4000">
+                                <div class="option-icon">|</div>
+                                <span class="option-label">Recta</span>
+                                <span class="price">$4.000</span>
+                            </div>
+                            <div class="option-card" data-category="bombilla-tipo" data-value="doblada" data-price="4500">
+                                <div class="option-icon">⌐</div>
+                                <span class="option-label">Doblada</span>
+                                <span class="price">$4.500</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="accessory-group">
+                        <h4>Esferas Decorativas</h4>
+                        <div class="options-row">
+                            <div class="option-card small" data-category="esferas" data-value="sin" data-price="0">
+                                <span class="option-label">Sin esferas</span>
+                                <span class="price">+$0</span>
+                            </div>
+                            <div class="option-card small" data-category="esferas" data-value="1" data-price="1000">
+                                <span class="option-label">⚪ 1 Esfera</span>
+                                <span class="price">+$1.000</span>
+                            </div>
+                            <div class="option-card small" data-category="esferas" data-value="2" data-price="1800">
+                                <span class="option-label">⚪⚪ 2 Esferas</span>
+                                <span class="price">+$1.800</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="accessory-group hidden" id="esferaLetraGroup">
+                        <h4>Letra en la Esfera</h4>
+                        <div class="options-row">
+                            <div class="option-card small" data-category="esfera-letra" data-value="sin" data-price="0">
+                                <span class="option-label">Sin letra</span>
+                                <span class="price">+$0</span>
+                            </div>
+                            <div class="option-card small" data-category="esfera-letra" data-value="con" data-price="800">
+                                <span class="option-label">Con letra</span>
+                                <span class="price">+$800</span>
+                            </div>
+                        </div>
+                        <div class="letter-input hidden" id="esferaLetraInput">
+                            <label>Letra para la esfera:</label>
+                            <input type="text" id="esferaLetraTexto" maxlength="1" placeholder="A">
+                        </div>
+                    </div>
+
+                    <div class="step-navigation">
+                        <button type="button" class="btn-prev" onclick="prevStep()">← Anterior</button>
+                        <button type="button" class="btn-next" onclick="nextStep()">Ver Resumen →</button>
+                    </div>
+                </div>
+
+                <!-- Paso 4: Resumen y Formulario -->
+                <div class="config-step" id="step4">
+                    <div class="summary-form-container">
+                        <div class="order-summary">
+                            <h3>Resumen de tu Mate</h3>
+                            <div class="summary-content" id="summaryContent">
+                                <!-- Se llena dinámicamente -->
+                            </div>
+                            <div class="total-price">
+                                <span>Total:</span>
+                                <span id="totalPrice">$0</span>
+                            </div>
+                        </div>
+                        
+                        <div class="contact-form">
+                            <h3>Completá tus datos</h3>
+                            <form id="orderForm">
+                                <div class="form-group">
+                                    <label for="nombre">Nombre completo *</label>
+                                    <input type="text" id="nombre" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="email">Email *</label>
+                                    <input type="email" id="email" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="telefono">Teléfono *</label>
+                                    <input type="tel" id="telefono" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="direccion">Dirección de envío</label>
+                                    <input type="text" id="direccion">
+                                </div>
+                                <div class="form-group">
+                                    <label for="ciudad">Ciudad / Localidad</label>
+                                    <input type="text" id="ciudad">
+                                </div>
+                                <div class="form-group">
+                                    <label for="comentarios">Comentarios adicionales</label>
+                                    <textarea id="comentarios" rows="3"></textarea>
+                                </div>
+                                <button type="submit" class="btn-submit">Enviar Pedido</button>
+                            </form>
+                        </div>
+                    </div>
+                    <div class="step-navigation">
+                        <button type="button" class="btn-prev" onclick="prevStep()">← Modificar Selección</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Precio Flotante -->
+            <div class="floating-price">
+                <span class="label">Precio actual:</span>
+                <span class="amount" id="currentPrice">$0</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contacto -->
+    <section id="contacto" class="contact">
+        <div class="container">
+            <h2 class="section-title">Contactanos</h2>
+            <div class="contact-info">
+                <div class="contact-item">
+                    <span class="contact-icon">📍</span>
+                    <p>Corrientes, Argentina<br>Esteros del Iberá</p>
+                </div>
+                <div class="contact-item">
+                    <span class="contact-icon">📱</span>
+                    <p>+54 9 379 XXX-XXXX</p>
+                </div>
+                <div class="contact-item">
+                    <span class="contact-icon">📸</span>
+                    <p><a href="https://www.instagram.com/plateria_regional/" target="_blank" rel="noopener">@plateria_regional</a></p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <p>🧉 Platería Regional © 2024 - Artesanía con alma correntina</p>
+            <p class="footer-note">Cada mate es una pieza única, hecha con amor y dedicación</p>
+            <p class="footer-social">
+                <a href="https://www.instagram.com/plateria_regional/" target="_blank" rel="noopener">Seguinos en Instagram</a>
+            </p>
+        </div>
+    </footer>
+
+    <!-- Modal de Confirmación -->
+    <div class="modal" id="confirmModal">
+        <div class="modal-content">
+            <div class="modal-icon">✅</div>
+            <h3>¡Pedido Enviado!</h3>
+            <p>Gracias por elegirnos. Nos pondremos en contacto pronto para coordinar los detalles de tu mate personalizado.</p>
+            <button type="button" class="btn-primary" onclick="closeModal()">Cerrar</button>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
