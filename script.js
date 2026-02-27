@@ -206,8 +206,10 @@ function updatePrice() {
     const total = calculateTotal();
     const formattedPrice = formatPrice(total);
     
-    document.getElementById('currentPrice').textContent = formattedPrice;
-    document.getElementById('totalPrice').textContent = formattedPrice;
+    const totalPriceEl = document.getElementById('totalPrice');
+    if (totalPriceEl) {
+        totalPriceEl.textContent = formattedPrice;
+    }
 }
 
 // Formatear precio
