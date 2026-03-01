@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Galería de Imágenes — Platería Regional</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@300;400;700;900&family=Space+Grotesk:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <style>
+        .galeria-page {
+            min-height: 100vh;
+            padding: 100px 0 60px;
+            background: var(--verde-palido);
+        }
+
+        .galeria-header {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+
+        .galeria-header h1 {
+            font-size: 1.8rem;
+            text-transform: uppercase;
+            letter-spacing: -0.03em;
+            color: var(--verde-oscuro);
+            margin-bottom: 12px;
+        }
+
+        .galeria-header p {
+            color: var(--gris);
+            font-size: 1rem;
+        }
+
+        .galeria-header a {
+            color: var(--verde-medio);
+            font-weight: 600;
+            text-decoration: none;
+        }
+
+        .galeria-header a:hover {
+            color: var(--verde-oscuro);
+            text-decoration: underline;
+        }
+
+        .galeria-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 28px;
+        }
+
+        .galeria-card {
+            background: var(--blanco);
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: var(--sombra-suave);
+            transition: var(--transicion);
+            border: 2px solid transparent;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .galeria-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--sombra-media);
+            border-color: var(--verde-agua);
+        }
+
+        .galeria-card-img {
+            width: 100%;
+            aspect-ratio: 4/3;
+            object-fit: cover;
+            display: block;
+            background: var(--verde-palido);
+        }
+
+        .galeria-card-info {
+            padding: 16px 18px 18px;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            flex-grow: 1;
+        }
+
+        .galeria-card-filename {
+            font-family: 'Space Grotesk', monospace;
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: var(--verde-oscuro);
+            word-break: break-all;
+        }
+
+        .galeria-card-path {
+            font-family: 'Space Grotesk', monospace;
+            font-size: 0.78rem;
+            color: var(--gris);
+            background: var(--verde-palido);
+            padding: 5px 9px;
+            border-radius: 6px;
+            word-break: break-all;
+            user-select: all;
+        }
+
+        .galeria-card-actions {
+            display: flex;
+            gap: 8px;
+            margin-top: 6px;
+        }
+
+        .galeria-btn {
+            flex: 1;
+            padding: 8px 10px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: var(--transicion);
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .galeria-btn-open {
+            background: var(--verde-medio);
+            color: var(--blanco);
+        }
+
+        .galeria-btn-open:hover {
+            background: var(--verde-oscuro);
+        }
+
+        .galeria-btn-copy {
+            background: var(--verde-palido);
+            color: var(--verde-oscuro);
+            border: 1.5px solid var(--verde-menta);
+        }
+
+        .galeria-btn-copy:hover {
+            background: var(--verde-menta);
+        }
+
+        .galeria-btn-copy.copied {
+            background: var(--dorado);
+            color: var(--blanco);
+            border-color: var(--dorado);
+        }
+
+        .galeria-empty {
+            text-align: center;
+            padding: 60px 20px;
+            color: var(--gris);
+            font-size: 1rem;
+        }
+
+        .galeria-stats {
+            display: inline-block;
+            background: var(--verde-medio);
+            color: var(--blanco);
+            font-size: 0.8rem;
+            font-weight: 600;
+            padding: 4px 14px;
+            border-radius: 20px;
+            margin-top: 10px;
+            letter-spacing: 0.02em;
+        }
+
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--verde-medio);
+            font-weight: 600;
+            font-size: 0.95rem;
+            text-decoration: none;
+            margin-bottom: 30px;
+            transition: var(--transicion);
+        }
+
+        .back-link:hover {
+            color: var(--verde-oscuro);
+            gap: 12px;
+        }
+
+        @media (max-width: 768px) {
+            .galeria-grid {
+                grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+                gap: 18px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .galeria-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navegación -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="index.html" class="logo">🧉 Platería Regional</a>
+            <ul class="nav-links">
+                <li><a href="index.html#inicio">Inicio</a></li>
+                <li><a href="index.html#galeria">Galería</a></li>
+                <li><a href="index.html#configurador">Armar tu Mate</a></li>
+                <li><a href="index.html#contacto">Contacto</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <main class="galeria-page">
+        <div class="container">
+            <a href="index.html" class="back-link">← Volver al inicio</a>
+
+            <div class="galeria-header">
+                <h1>Galería de Imágenes</h1>
+                <p>Archivos en <code>/images</code> — hacé clic en el path para copiarlo</p>
+                <span class="galeria-stats" id="galeria-count">Cargando...</span>
+            </div>
+
+            <div class="galeria-grid" id="galeriaGrid">
+                <!-- Se llena dinámicamente con JS -->
+            </div>
+        </div>
+    </main>
+
+    <script>
+        // Lista de imágenes en /images
+        // Para agregar una imagen nueva, solo sumá una entrada a este array
+        const IMAGES = [
+            { filename: 'mate-01.jpg', alt: 'Mates con bombillas artesanales' },
+            { filename: 'mate-02.jpg', alt: 'Yerba mate en recipiente artesanal' },
+            { filename: 'mate-03.jpg', alt: 'Tomando mate al atardecer' },
+            { filename: 'mate-04.jpg', alt: 'Yerba mate natural' },
+            { filename: 'mate-05.jpg', alt: 'Bowl de yerba mate' },
+            { filename: 'mate-06.jpg', alt: 'Mate artesanal con bombilla plateada' },
+        ];
+
+        const BASE_PATH = 'images/';
+
+        function buildGaleria() {
+            const grid = document.getElementById('galeriaGrid');
+            const countEl = document.getElementById('galeria-count');
+
+            countEl.textContent = `${IMAGES.length} imagen${IMAGES.length !== 1 ? 'es' : ''}`;
+
+            if (IMAGES.length === 0) {
+                grid.innerHTML = '<p class="galeria-empty">No hay imágenes en /images todavía.</p>';
+                return;
+            }
+
+            grid.innerHTML = IMAGES.map(img => {
+                const path = BASE_PATH + img.filename;
+                return `
+                    <div class="galeria-card">
+                        <img
+                            class="galeria-card-img"
+                            src="${path}"
+                            alt="${img.alt}"
+                            loading="lazy"
+                            onerror="this.style.background='#d8f3dc'; this.style.display='block'; this.style.minHeight='200px';"
+                        >
+                        <div class="galeria-card-info">
+                            <span class="galeria-card-filename">📷 ${img.filename}</span>
+                            <code class="galeria-card-path">${path}</code>
+                            <div class="galeria-card-actions">
+                                <a class="galeria-btn galeria-btn-open" href="${path}" target="_blank" rel="noopener">Ver imagen</a>
+                                <button class="galeria-btn galeria-btn-copy" onclick="copyPath(this, '${path}')">Copiar path</button>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function copyPath(btn, path) {
+            navigator.clipboard.writeText(path).then(() => {
+                btn.textContent = '✓ Copiado';
+                btn.classList.add('copied');
+                setTimeout(() => {
+                    btn.textContent = 'Copiar path';
+                    btn.classList.remove('copied');
+                }, 1800);
+            }).catch(() => {
+                // Fallback para navegadores sin clipboard API
+                const input = document.createElement('input');
+                input.value = path;
+                document.body.appendChild(input);
+                input.select();
+                document.execCommand('copy');
+                document.body.removeChild(input);
+                btn.textContent = '✓ Copiado';
+                btn.classList.add('copied');
+                setTimeout(() => {
+                    btn.textContent = 'Copiar path';
+                    btn.classList.remove('copied');
+                }, 1800);
+            });
+        }
+
+        // Navbar scroll effect (igual que index)
+        window.addEventListener('scroll', () => {
+            const navbar = document.querySelector('.navbar');
+            navbar.style.background = window.scrollY > 50
+                ? 'rgba(26, 77, 46, 0.98)'
+                : 'rgba(26, 77, 46, 0.95)';
+        });
+
+        buildGaleria();
+    </script>
+</body>
+</html>

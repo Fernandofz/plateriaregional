@@ -1,0 +1,10 @@
+paso,sub_seccion,opcion,valor_interno,precio,descripcion,obligatorio,habilita_siguiente,imagen_url,imagen_local,notas
+3,Forma,Recta,recta,4000,Diseño tradicional y directo,SI — requerida para avanzar,SI,https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=400&h=300&fit=crop&q=80,images/mate-04.jpg,Reemplazar URL con foto propia cuando esté disponible
+3,Forma,Curvada,curvada,4500,Mayor comodidad al cebar,SI — requerida para avanzar,SI,https://images.unsplash.com/photo-1556909172-54557c7e4fb7?w=400&h=300&fit=crop&q=80,images/mate-05.jpg,Reemplazar URL con foto propia cuando esté disponible
+3,Esferas decorativas,Sin esferas,simple,0,Bombilla tradicional sin decoración,NO,,(sin imagen — ícono ➖),Opción por defecto preseleccionada
+3,Esferas decorativas,1 esfera,1-esfera,1000,Una esfera decorativa en alpaca,NO,,(sin imagen — ícono 🔮),
+3,Esferas decorativas,2 esferas,2-esferas,2000,Dos esferas decorativas en alpaca,NO,,(sin imagen — ícono ✨),
+3,Tipo de filtro,Tradicional,tradicional,0,Filtro clásico argentino,NO,,(sin imagen — ícono 🧉),Opción por defecto preseleccionada
+3,Tipo de filtro,Uruguaya,uruguaya,0,Filtro estilo uruguayo,NO,,(sin imagen — ícono 🌀),
+3,Logo en bombilla,Sin logo,sin-logo,0,Bombilla sin grabado,NO,,(sin imagen — ícono 🚫),Opción por defecto preseleccionada
+3,Logo en bombilla,Con logo,con-logo,2500,Logo grabado en la bombilla,NO,,(sin imagen — ícono 🏅),

@@ -1,0 +1,10 @@
+concepto,descripcion,valor_minimo,valor_maximo,formula,ejemplo
+Modelo base,Precio del porongo según modelo elegido en paso 1,30000,50000,precio del modelo seleccionado,Clásico = $30.000
+Lazos y hebilla,Personalización de lazos según opción elegida,0,7500,"Si modelo=Premium y opción=letras → $0; resto según tabla","Nombre + logo = $7.500"
+Boca,Terminación de la boca del mate,0,3000,precio fijo según opción seleccionada,Lisa con nombre = $3.000
+Base,Terminación de la base del mate,0,3000,precio fijo según opción seleccionada,Labrada = $2.000
+Bombilla - Forma,Precio base de la bombilla (obligatorio),4000,4500,precio fijo según forma seleccionada,Curvada = $4.500
+Bombilla - Esferas,Esferas decorativas adicionales,0,2000,precio fijo según cantidad de esferas,2 esferas = $2.000
+Bombilla - Tipo,Tipo de filtro (sin costo extra),0,0,siempre $0,Tradicional o Uruguaya = Incluido
+Bombilla - Logo,Logo grabado en la bombilla,0,2500,precio fijo si se elige Con logo,Con logo = $2.500
+TOTAL,,34000,68000,suma de todos los campos,Ejemplo mínimo: Clásico + Recta = $34.000

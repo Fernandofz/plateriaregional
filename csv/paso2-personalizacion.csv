@@ -1,0 +1,11 @@
+paso,sub_seccion,opcion,valor_interno,precio_clasico,precio_tradicional,precio_premium,descripcion,muestra_input_texto,max_chars_input,imagen_url,imagen_local,notas
+2,Lazos y hebilla,Simple,simple,0,0,0,Sin grabado en los lazos,NO,,,(sin imagen — ícono 🎀),Opción por defecto preseleccionada
+2,Lazos y hebilla,1 a 3 letras,letras,5000,5000,0,"Iniciales grabadas en alpaca (gratis para modelo Premium)",SI,3,,(sin imagen — ícono 🔤),"Precio DINÁMICO: gratis si modelo=Premium; $5.000 si Clásico o Tradicional"
+2,Lazos y hebilla,Nombre (hasta 5 letras),nombre,5000,5000,5000,Nombre personalizado en alpaca,SI,5,,(sin imagen — ícono ✍️),
+2,Lazos y hebilla,Nombre + logo,nombre-logo,7500,7500,7500,"Nombre hasta 5 letras y logo ($5.000 nombre + $2.500 logo)",SI,5,,(sin imagen — ícono 🏅),
+2,Boca,Lisa,lisa,0,0,0,Acabado liso tradicional,NO,,,(sin imagen — ícono ⭕),Opción por defecto preseleccionada
+2,Boca,Lisa con nombre,lisa-nombre,3000,3000,3000,Boca lisa con nombre grabado,SI,10,,(sin imagen — ícono 🔡),
+2,Boca,Labrada,labrada,2000,2000,2000,Diseño tallado en alpaca,NO,,,(sin imagen — ícono 🌿),
+2,Base,Lisa,lisa,0,0,0,Acabado liso tradicional,NO,,,(sin imagen — ícono 🔵),Opción por defecto preseleccionada
+2,Base,Lisa con nombre,lisa-nombre,3000,3000,3000,Base lisa con nombre grabado,SI,10,,(sin imagen — ícono 🔡),
+2,Base,Labrada,labrada,2000,2000,2000,Diseño tallado en alpaca,NO,,,(sin imagen — ícono 🌾),

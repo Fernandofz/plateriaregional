@@ -1,0 +1,7 @@
+campo,tipo,requerido,placeholder,descripcion
+Nombre completo,texto,SI,,(Nombre y apellido del cliente)
+Email,email,SI,,(Para confirmar el pedido por correo)
+Teléfono,tel,SI,,(Para coordinar entrega y pago)
+Dirección de envío,texto,NO,,(Calle y número — opcional si retira personalmente)
+Ciudad / Localidad,texto,NO,,(Ciudad de destino del envío)
+Comentarios adicionales,textarea,NO,,(Aclaraciones sobre el pedido)
