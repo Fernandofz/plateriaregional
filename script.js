@@ -6,59 +6,34 @@
 // Estado del configurador
 const state = {
     currentStep: 1,
+    totalSteps: 5,
     selections: {
-        porongo: { size: null, price: 0 },
-        cuero: { type: 'sin', price: 0 },
-        borde: { type: 'sin', price: 0 },
-        base: { type: 'sin', price: 0 },
-        letras: { count: 'sin', text: '', price: 0 },
-        bombillaTipo: { type: null, price: 0 },
-        esferas: { count: 'sin', price: 0 },
-        esferaLetra: { has: 'sin', text: '', price: 0 }
+        tamano: { value: null, price: 0 },
+        modelo: { value: null, price: 0 },
+        letra: { value: 'sin', text: '', price: 0 },
+        bombilla: { value: null, price: 0 }
     }
 };
 
-// Precios de referencia para el resumen
+// Precios de referencia para el resumen (etiquetas)
 const priceLabels = {
-    porongo: {
-        chico: 'Porongo Chico',
-        mediano: 'Porongo Mediano',
-        grande: 'Porongo Grande'
+    tamano: {
+        chico: 'Mate Chico',
+        mediano: 'Mate Mediano',
+        grande: 'Mate Grande'
     },
-    cuero: {
-        sin: 'Sin cuero',
-        marron: 'Cuero Marrón',
-        negro: 'Cuero Negro',
-        natural: 'Cuero Natural'
+    modelo: {
+        basico: 'Modelo Básico',
+        clasico: 'Modelo Clásico',
+        premium: 'Modelo Premium'
     },
-    borde: {
-        sin: 'Sin borde',
-        simple: 'Borde Simple',
-        labrado: 'Borde Labrado'
+    letra: {
+        sin: 'Sin letras en ligas',
+        con: 'Con letras en ligas'
     },
-    base: {
-        sin: 'Sin base',
-        simple: 'Base Simple',
-        labrada: 'Base Labrada'
-    },
-    letras: {
-        sin: 'Sin letras',
-        1: '1 Letra',
-        2: '2 Letras',
-        3: '3 Letras'
-    },
-    bombillaTipo: {
+    bombilla: {
         recta: 'Bombilla Recta',
-        doblada: 'Bombilla Doblada'
-    },
-    esferas: {
-        sin: 'Sin esferas',
-        1: '1 Esfera',
-        2: '2 Esferas'
-    },
-    esferaLetra: {
-        sin: 'Sin letra en esfera',
-        con: 'Letra en esfera'
+        curvada: 'Bombilla Curvada'
     }
 };
 
@@ -71,137 +46,102 @@ document.addEventListener('DOMContentLoaded', () => {
 
 // Inicializar el configurador
 function initializeConfigurator() {
-    // Event listeners para las tarjetas de opciones
-    document.querySelectorAll('.option-card').forEach(card => {
+    // Event listeners para las tarjetas de opciones (con imagen y simples)
+    const allCards = document.querySelectorAll('.option-card-img, .option-card');
+    
+    allCards.forEach(card => {
         card.addEventListener('click', function() {
             handleOptionSelect(this);
         });
     });
 
-    // Event listener para el input de letras del mate
+    // Event listener para el input de letras
     const letrasInput = document.getElementById('letrasTexto');
     if (letrasInput) {
         letrasInput.addEventListener('input', function() {
-            state.selections.letras.text = this.value.toUpperCase();
-        });
-    }
-
-    // Event listener para el input de letra de la esfera
-    const esferaInput = document.getElementById('esferaLetraTexto');
-    if (esferaInput) {
-        esferaInput.addEventListener('input', function() {
-            state.selections.esferaLetra.text = this.value.toUpperCase();
+            state.selections.letra.text = this.value.toUpperCase();
+            // Actualizar resumen si ya estamos en ese paso (opcional, pero buena UX)
         });
     }
 }
 
 // Manejar selección de opciones
 function handleOptionSelect(card) {
-    const category = card.dataset.category;
     const value = card.dataset.value;
     const price = parseInt(card.dataset.price) || 0;
+    
+    // Identificar en qué paso estamos según el contenedor
+    const stepContainer = card.closest('.config-step');
+    const stepId = stepContainer.id;
 
-    // Si es una tarjeta de tamaño de porongo (paso 1)
-    if (card.closest('.size-options')) {
-        // Deseleccionar otras opciones de tamaño
-        document.querySelectorAll('.size-options .option-card').forEach(c => {
-            c.classList.remove('selected');
-        });
+    // Lógica por paso
+    if (stepId === 'step1') {
+        // Paso 1: Tamaño
+        document.querySelectorAll('#step1 .option-card-img').forEach(c => { c.classList.remove('selected'); });
         card.classList.add('selected');
         
-        state.selections.porongo = { size: value, price: price };
+        state.selections.tamano = { value: value, price: price };
         
-        // Habilitar el botón siguiente
+        // Habilitar siguiente
         document.querySelector('#step1 .btn-next').disabled = false;
     }
-    // Si tiene categoría (pasos 2 y 3)
-    else if (category) {
-        // Deseleccionar otras opciones de la misma categoría
-        document.querySelectorAll(`[data-category="${category}"]`).forEach(c => {
-            c.classList.remove('selected');
-        });
+    else if (stepId === 'step2') {
+        // Paso 2: Modelo
+        document.querySelectorAll('#step2 .option-card-img').forEach(c => { c.classList.remove('selected'); });
         card.classList.add('selected');
-
-        // Actualizar estado según categoría
-        switch(category) {
-            case 'cuero':
-                state.selections.cuero = { type: value, price: price };
-                break;
-            case 'borde':
-                state.selections.borde = { type: value, price: price };
-                break;
-            case 'base':
-                state.selections.base = { type: value, price: price };
-                break;
-            case 'letras': {
-                state.selections.letras.count = value;
-                state.selections.letras.price = price;
-                // Mostrar/ocultar input de letras
-                const letterInput = document.getElementById('letterInput');
-                if (value !== 'sin') {
-                    letterInput.classList.remove('hidden');
-                    document.getElementById('letrasTexto').maxLength = parseInt(value);
-                } else {
-                    letterInput.classList.add('hidden');
-                    state.selections.letras.text = '';
-                }
-                break;
-            }
-            case 'bombilla-tipo':
-                state.selections.bombillaTipo = { type: value, price: price };
-                break;
-            case 'esferas': {
-                state.selections.esferas = { count: value, price: price };
-                // Mostrar/ocultar grupo de letra en esfera
-                const esferaLetraGroup = document.getElementById('esferaLetraGroup');
-                if (value !== 'sin') {
-                    esferaLetraGroup.classList.remove('hidden');
-                } else {
-                    esferaLetraGroup.classList.add('hidden');
-                    state.selections.esferaLetra = { has: 'sin', text: '', price: 0 };
-                    // Deseleccionar opciones de letra en esfera
-                    document.querySelectorAll('[data-category="esfera-letra"]').forEach(c => {
-                        c.classList.remove('selected');
-                    });
-                }
-                break;
-            }
-            case 'esfera-letra': {
-                state.selections.esferaLetra.has = value;
-                state.selections.esferaLetra.price = price;
-                // Mostrar/ocultar input de letra
-                const esferaLetraInput = document.getElementById('esferaLetraInput');
-                if (value === 'con') {
-                    esferaLetraInput.classList.remove('hidden');
-                } else {
-                    esferaLetraInput.classList.add('hidden');
-                    state.selections.esferaLetra.text = '';
-                }
-                break;
-            }
+        
+        state.selections.modelo = { value: value, price: price };
+        
+        // Habilitar siguiente
+        document.querySelector('#step2 .btn-next').disabled = false;
+    }
+    else if (stepId === 'step3') {
+        // Paso 3: Letras
+        document.querySelectorAll('#step3 .option-card').forEach(c => { c.classList.remove('selected'); });
+        card.classList.add('selected');
+        
+        state.selections.letra.value = value;
+        state.selections.letra.price = price;
+        
+        // Mostrar/ocultar input
+        const inputContainer = document.getElementById('ligasLetraInput');
+        if (value === 'con') {
+            inputContainer.classList.remove('hidden');
+        } else {
+            inputContainer.classList.add('hidden');
+            state.selections.letra.text = ''; // Limpiar texto si selecciona "sin"
+            document.getElementById('letrasTexto').value = '';
         }
     }
+    else if (stepId === 'step4') {
+        // Paso 4: Bombilla
+        document.querySelectorAll('#step4 .option-card-img').forEach(c => { c.classList.remove('selected'); });
+        card.classList.add('selected');
+        
+        state.selections.bombilla = { value: value, price: price };
+        
+        // Habilitar botón para ir al resumen
+        document.querySelector('#step4 .btn-next').disabled = false;
+    }
 
-    updatePrice();
+    // Calcular precio total (aunque no se muestre hasta el final, es bueno tenerlo actualizado)
+    // Nota: El diseño original no muestra precio flotante, solo en resumen.
 }
 
 // Calcular precio total
 function calculateTotal() {
     let total = 0;
     
-    total += state.selections.porongo.price;
-    total += state.selections.cuero.price;
-    total += state.selections.borde.price;
-    total += state.selections.base.price;
-    total += state.selections.letras.price;
-    total += state.selections.bombillaTipo.price;
-    total += state.selections.esferas.price;
-    total += state.selections.esferaLetra.price;
+    // Sumar solo si hay selección (para evitar NaN o errores)
+    if (state.selections.tamano.price) total += state.selections.tamano.price;
+    if (state.selections.modelo.price) total += state.selections.modelo.price;
+    if (state.selections.letra.price) total += state.selections.letra.price;
+    if (state.selections.bombilla.price) total += state.selections.bombilla.price;
     
     return total;
 }
 
-// Actualizar visualización del precio
+// Actualizar visualización del precio (en el resumen)
 function updatePrice() {
     const total = calculateTotal();
     const formattedPrice = formatPrice(total);
@@ -219,32 +159,28 @@ function formatPrice(price) {
 
 // Navegación entre pasos
 function nextStep() {
-    if (state.currentStep < 4) {
-        // Validaciones específicas por paso
-        if (state.currentStep === 1 && !state.selections.porongo.size) {
-            alert('Por favor, seleccioná un tamaño de porongo');
-            return;
+    if (state.currentStep < state.totalSteps) {
+        // Validaciones
+        if (state.currentStep === 1 && !state.selections.tamano.value) return;
+        if (state.currentStep === 2 && !state.selections.modelo.value) return;
+        if (state.currentStep === 3 && state.selections.letra.value === 'con' && document.getElementById('letrasTexto').value.trim() === '') {
+            // Opcional: Validar que escriba algo si eligió "con letras"
+            // Por ahora permitimos vacío o lo validamos al final
         }
+        if (state.currentStep === 4 && !state.selections.bombilla.value) return;
         
-        if (state.currentStep === 3 && !state.selections.bombillaTipo.type) {
-            alert('Por favor, seleccioná un tipo de bombilla');
-            return;
-        }
-        
-        // Si vamos al paso 4, generar resumen
-        if (state.currentStep === 3) {
+        // Si vamos al paso 5 (Resumen), generar contenido
+        if (state.currentStep === 4) {
             generateSummary();
+            updatePrice();
         }
-        
-        // Cambiar paso
+
+        // Cambio de paso UI
         document.getElementById(`step${state.currentStep}`).classList.remove('active');
         state.currentStep++;
         document.getElementById(`step${state.currentStep}`).classList.add('active');
         
-        // Actualizar progress bar
         updateProgressBar();
-        
-        // Scroll al inicio del configurador
         document.getElementById('configurador').scrollIntoView({ behavior: 'smooth' });
     }
 }
@@ -256,12 +192,11 @@ function prevStep() {
         document.getElementById(`step${state.currentStep}`).classList.add('active');
         
         updateProgressBar();
-        
         document.getElementById('configurador').scrollIntoView({ behavior: 'smooth' });
     }
 }
 
-// Actualizar progress bar
+// Actualizar barra de progreso
 function updateProgressBar() {
     document.querySelectorAll('.progress-step').forEach((step, index) => {
         const stepNum = index + 1;
@@ -275,89 +210,47 @@ function updateProgressBar() {
     });
 }
 
-// Generar resumen del pedido
+// Generar resumen HTML
 function generateSummary() {
     const summaryContent = document.getElementById('summaryContent');
     let html = '';
-    
-    // Porongo
-    if (state.selections.porongo.size) {
-        html += createSummaryItem(
-            priceLabels.porongo[state.selections.porongo.size],
-            formatPrice(state.selections.porongo.price)
-        );
-    }
-    
-    // Cuero
-    if (state.selections.cuero.type !== 'sin') {
-        html += createSummaryItem(
-            priceLabels.cuero[state.selections.cuero.type],
-            '+' + formatPrice(state.selections.cuero.price)
-        );
-    }
-    
-    // Borde
-    if (state.selections.borde.type !== 'sin') {
-        html += createSummaryItem(
-            priceLabels.borde[state.selections.borde.type],
-            '+' + formatPrice(state.selections.borde.price)
-        );
-    }
-    
-    // Base
-    if (state.selections.base.type !== 'sin') {
-        html += createSummaryItem(
-            priceLabels.base[state.selections.base.type],
-            '+' + formatPrice(state.selections.base.price)
-        );
-    }
-    
-    // Letras
-    if (state.selections.letras.count !== 'sin') {
-        const letrasText = state.selections.letras.text 
-            ? ` (${state.selections.letras.text})` 
+
+    // Precio del mate = tamaño + modelo + letra (agrupados como "Mate")
+    const precioMate = state.selections.tamano.price
+        + state.selections.modelo.price
+        + state.selections.letra.price;
+
+    const tamanoLabel = priceLabels.tamano[state.selections.tamano.value] || '';
+    const modeloLabel = priceLabels.modelo[state.selections.modelo.value] || '';
+    let mateDesc = `${tamanoLabel} · ${modeloLabel}`;
+    if (state.selections.letra.value === 'con') {
+        const letrasTexto = state.selections.letra.text
+            ? ` (${state.selections.letra.text})`
             : '';
-        html += createSummaryItem(
-            priceLabels.letras[state.selections.letras.count] + letrasText,
-            '+' + formatPrice(state.selections.letras.price)
-        );
+        mateDesc += ` · Con letras${letrasTexto}`;
     }
-    
+
+    html += createSummaryItem('Mate', mateDesc, formatPrice(precioMate));
+
     // Bombilla
-    if (state.selections.bombillaTipo.type) {
+    if (state.selections.bombilla.value) {
         html += createSummaryItem(
-            priceLabels.bombillaTipo[state.selections.bombillaTipo.type],
-            formatPrice(state.selections.bombillaTipo.price)
+            'Bombilla',
+            priceLabels.bombilla[state.selections.bombilla.value],
+            formatPrice(state.selections.bombilla.price)
         );
     }
-    
-    // Esferas
-    if (state.selections.esferas.count !== 'sin') {
-        html += createSummaryItem(
-            priceLabels.esferas[state.selections.esferas.count],
-            '+' + formatPrice(state.selections.esferas.price)
-        );
-    }
-    
-    // Letra en esfera
-    if (state.selections.esferaLetra.has === 'con') {
-        const esferaText = state.selections.esferaLetra.text 
-            ? ` (${state.selections.esferaLetra.text})` 
-            : '';
-        html += createSummaryItem(
-            priceLabels.esferaLetra.con + esferaText,
-            '+' + formatPrice(state.selections.esferaLetra.price)
-        );
-    }
-    
+
     summaryContent.innerHTML = html;
 }
 
-// Crear item del resumen
-function createSummaryItem(label, value) {
+function createSummaryItem(label, description, value) {
     return `
         <div class="summary-item">
-            <span class="label">${label}</span>
+            <div>
+                <span class="label">${label}</span>
+                <span class="summary-desc">${description}</span>
+            </div>
             <span class="value">${value}</span>
         </div>
     `;
@@ -370,94 +263,100 @@ function initializeForm() {
     form.addEventListener('submit', function(e) {
         e.preventDefault();
         
-        // Recopilar datos del formulario
+        // Recopilar datos
         const formData = {
-            nombre: document.getElementById('nombre').value,
-            email: document.getElementById('email').value,
-            telefono: document.getElementById('telefono').value,
-            direccion: document.getElementById('direccion').value,
-            ciudad: document.getElementById('ciudad').value,
-            comentarios: document.getElementById('comentarios').value,
-            pedido: state.selections,
-            total: calculateTotal()
+            cliente: {
+                nombre: document.getElementById('nombre').value,
+                email: document.getElementById('email').value,
+                telefono: document.getElementById('telefono').value,
+                direccion: document.getElementById('direccion').value,
+                ciudad: document.getElementById('ciudad').value,
+                comentarios: document.getElementById('comentarios').value
+            },
+            pedido: {
+                tamano: state.selections.tamano.value,
+                modelo: state.selections.modelo.value,
+                letras: state.selections.letra.value === 'con' ? state.selections.letra.text : 'No',
+                bombilla: state.selections.bombilla.value,
+                total: calculateTotal()
+            }
         };
         
-        // Log para demo (en producción enviaría por email)
-        console.log('Pedido enviado:', formData);
-        console.log('Resumen del pedido:');
-        console.log('- Porongo:', state.selections.porongo.size, '- $' + state.selections.porongo.price);
-        console.log('- Cuero:', state.selections.cuero.type);
-        console.log('- Borde:', state.selections.borde.type);
-        console.log('- Base:', state.selections.base.type);
-        console.log('- Letras:', state.selections.letras.count, state.selections.letras.text);
-        console.log('- Bombilla:', state.selections.bombillaTipo.type);
-        console.log('- Esferas:', state.selections.esferas.count);
-        console.log('- Letra esfera:', state.selections.esferaLetra.has, state.selections.esferaLetra.text);
-        console.log('- TOTAL: $' + calculateTotal());
-        
-        // Mostrar modal de confirmación
-        showModal();
-        
-        // Resetear formulario
+        // Armar mensaje de WhatsApp
+        const nombre = formData.cliente.nombre;
+        const tamano = priceLabels.tamano[formData.pedido.tamano] || formData.pedido.tamano;
+        const modelo = priceLabels.modelo[formData.pedido.modelo] || formData.pedido.modelo;
+        const bombilla = priceLabels.bombilla[formData.pedido.bombilla] || formData.pedido.bombilla;
+        const letras = state.selections.letra.value === 'con'
+            ? `Con letras: ${state.selections.letra.text || '(a confirmar)'}`
+            : 'Sin letras';
+        const precioMate = state.selections.tamano.price + state.selections.modelo.price + state.selections.letra.price;
+        const ciudad = formData.cliente.ciudad ? `\n📍 Ciudad: ${formData.cliente.ciudad}` : '';
+        const direccion = formData.cliente.direccion ? `\n🏠 Dirección: ${formData.cliente.direccion}` : '';
+        const comentarios = formData.cliente.comentarios ? `\n💬 Comentarios: ${formData.cliente.comentarios}` : '';
+
+        const mensaje =
+`¡Hola! Quiero encargar un mate personalizado 🧉
+
+👤 Nombre: ${nombre}
+📱 Teléfono: ${formData.cliente.telefono}
+📧 Email: ${formData.cliente.email}${ciudad}${direccion}
+
+📦 *Detalle del pedido:*
+• Mate: ${tamano} · ${modelo} · ${letras} — ${formatPrice(precioMate)}
+• Bombilla: ${bombilla} — ${formatPrice(state.selections.bombilla.price)}
+
+💰 *Total estimado: ${formatPrice(calculateTotal())}*${comentarios}`;
+
         form.reset();
+
+        const urlWhatsApp = `https://wa.me/5493794143509?text=${encodeURIComponent(mensaje)}`;
+        window.open(urlWhatsApp, '_blank');
     });
 }
 
-// Mostrar modal
+// Modal functions
 function showModal() {
     document.getElementById('confirmModal').classList.add('active');
 }
 
-// Cerrar modal
 function closeModal() {
     document.getElementById('confirmModal').classList.remove('active');
-    
-    // Resetear configurador
     resetConfigurator();
 }
 
-// Resetear configurador
 function resetConfigurator() {
-    // Resetear estado
+    // Reset state
     state.currentStep = 1;
     state.selections = {
-        porongo: { size: null, price: 0 },
-        cuero: { type: 'sin', price: 0 },
-        borde: { type: 'sin', price: 0 },
-        base: { type: 'sin', price: 0 },
-        letras: { count: 'sin', text: '', price: 0 },
-        bombillaTipo: { type: null, price: 0 },
-        esferas: { count: 'sin', price: 0 },
-        esferaLetra: { has: 'sin', text: '', price: 0 }
+        tamano: { value: null, price: 0 },
+        modelo: { value: null, price: 0 },
+        letra: { value: 'sin', text: '', price: 0 },
+        bombilla: { value: null, price: 0 }
     };
     
-    // Resetear UI
-    document.querySelectorAll('.option-card').forEach(card => {
-        card.classList.remove('selected');
-    });
+    // Reset UI Classes
+    document.querySelectorAll('.option-card-img, .option-card').forEach(c => { c.classList.remove('selected'); });
+    document.querySelectorAll('.config-step').forEach(c => { c.classList.remove('active'); });
     
-    document.querySelectorAll('.config-step').forEach(step => {
-        step.classList.remove('active');
-    });
+    // Show step 1
     document.getElementById('step1').classList.add('active');
     
-    document.getElementById('letterInput').classList.add('hidden');
-    document.getElementById('esferaLetraGroup').classList.add('hidden');
-    document.getElementById('esferaLetraInput').classList.add('hidden');
-    
+    // Hide letter input and clear text
+    document.getElementById('ligasLetraInput').classList.add('hidden');
     document.getElementById('letrasTexto').value = '';
-    document.getElementById('esferaLetraTexto').value = '';
     
-    document.querySelector('#step1 .btn-next').disabled = true;
+    // Disable required-selection next buttons; step 3 is optional so keep it enabled
+    document.querySelectorAll('#step1 .btn-next, #step2 .btn-next, #step4 .btn-next').forEach(btn => { btn.disabled = true; });
     
+    // Reset progress
     updateProgressBar();
-    updatePrice();
     
-    // Scroll al inicio
+    // Scroll to top
     document.getElementById('inicio').scrollIntoView({ behavior: 'smooth' });
 }
 
-// Smooth scroll para navegación
+// Smooth scroll (legacy support)
 document.querySelectorAll('a[href^="#"]').forEach(anchor => {
     anchor.addEventListener('click', function(e) {
         e.preventDefault();
@@ -468,7 +367,7 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
     });
 });
 
-// Navbar efecto al scroll
+// Navbar scroll effect
 window.addEventListener('scroll', () => {
     const navbar = document.querySelector('.navbar');
     if (window.scrollY > 50) {
