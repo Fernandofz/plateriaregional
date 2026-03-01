@@ -86,11 +86,12 @@ h1, h2, h3, h4 {
 }
 
 .logo {
-    font-family: 'Playfair Display', serif;
+    font-family: 'Space Grotesk', sans-serif;
     font-size: 1.5rem;
-    font-weight: 700;
+    font-weight: 600;
     color: var(--crema);
     text-decoration: none;
+    letter-spacing: -0.02em;
 }
 
 .nav-links {
