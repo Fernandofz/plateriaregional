@@ -564,10 +564,10 @@ h1, h2, h3, h4 {
 
 .card-price, .option-card .price {
     display: block;
-    font-size: 1.25rem;
+    font-size: 1.1rem;
     font-weight: 700;
-    color: var(--verde-medio);
-    margin-top: auto;
+    color: var(--dorado);
+    margin-top: 8px;
 }
 
 /* Letter Input */
