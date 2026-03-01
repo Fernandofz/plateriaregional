@@ -113,97 +113,61 @@
             <div class="progress-bar">
                 <div class="progress-step active" data-step="1">
                     <div class="step-number">1</div>
-                    <span>Tamaño</span>
+                    <span>Modelo</span>
                 </div>
                 <div class="progress-line"></div>
                 <div class="progress-step" data-step="2">
                     <div class="step-number">2</div>
-                    <span>Modelo</span>
+                    <span>Letras</span>
                 </div>
                 <div class="progress-line"></div>
                 <div class="progress-step" data-step="3">
                     <div class="step-number">3</div>
-                    <span>Letras</span>
+                    <span>Bombilla</span>
                 </div>
                 <div class="progress-line"></div>
                 <div class="progress-step" data-step="4">
                     <div class="step-number">4</div>
-                    <span>Bombilla</span>
-                </div>
-                <div class="progress-line"></div>
-                <div class="progress-step" data-step="5">
-                    <div class="step-number">5</div>
                     <span>Resumen</span>
                 </div>
             </div>
 
             <!-- Configurator Steps -->
             <div class="configurator-content">
-                <!-- Paso 1: Tamaño del Mate -->
-                <div class="config-step active" id="step1">
-                    <h3>Elegí el tamaño de tu mate</h3>
-                    <div class="options-grid size-options">
-                        <div class="option-card-img" data-value="chico" data-price="8000">
-                            <img src="https://images.unsplash.com/photo-1544787219-7f47ccb76574?w=400&h=300&fit=crop&q=80" alt="Mate Chico" class="card-img">
-                            <div class="card-content">
-                                <h4>Chico</h4>
-                                <p>Ideal para mates cortos y personales</p>
-                            </div>
-                        </div>
-                        <div class="option-card-img" data-value="mediano" data-price="12000">
-                            <img src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=400&h=300&fit=crop&q=80" alt="Mate Mediano" class="card-img">
-                            <div class="card-content">
-                                <h4>Mediano</h4>
-                                <p>El clásico, perfecto para el día a día</p>
-                            </div>
-                        </div>
-                        <div class="option-card-img" data-value="grande" data-price="16000">
-                            <img src="https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=400&h=300&fit=crop&q=80" alt="Mate Grande" class="card-img">
-                            <div class="card-content">
-                                <h4>Grande</h4>
-                                <p>Para rondas largas con amigos</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="step-navigation">
-                        <button type="button" class="btn-next" onclick="nextStep()" disabled>Siguiente →</button>
-                    </div>
-                </div>
 
-                <!-- Paso 2: Modelo -->
-                <div class="config-step" id="step2">
-                    <h3>Elegí el modelo</h3>
+                <!-- Paso 1: Modelo -->
+                <div class="config-step active" id="step1">
+                    <h3>Elegí tu modelo</h3>
                     <div class="options-grid model-options">
-                        <div class="option-card-img" data-value="basico" data-price="5000">
-                            <img src="https://images.unsplash.com/photo-1559056199-641a0ac8b55e?w=400&h=300&fit=crop&q=80" alt="Modelo Básico" class="card-img">
-                            <div class="card-content">
-                                <h4>Básico</h4>
-                                <p>Detalles sutiles y elegantes</p>
-                            </div>
-                        </div>
-                        <div class="option-card-img" data-value="clasico" data-price="9000">
-                            <img src="https://images.unsplash.com/photo-1544787219-7f47ccb76574?w=400&h=300&fit=crop&q=80" alt="Modelo Clásico" class="card-img">
+                        <div class="option-card-img" data-value="clasico" data-price="30000">
+                            <img src="https://images.unsplash.com/photo-1544787219-7f47ccb76574?w=400&h=300&fit=crop&q=80" alt="Mate Clásico" class="card-img">
                             <div class="card-content">
                                 <h4>Clásico</h4>
-                                <p>Equilibrio perfecto entre tradición y diseño</p>
+                                <p>Porongo natural con boca y base en alpaca lisa. Podés agregar personalización en el siguiente paso.</p>
                             </div>
                         </div>
-                        <div class="option-card-img" data-value="premium" data-price="14000">
-                            <img src="https://images.unsplash.com/photo-1578985545062-69928b1d9587?w=400&h=300&fit=crop&q=80" alt="Modelo Premium" class="card-img">
+                        <div class="option-card-img" data-value="tradicional" data-price="40000">
+                            <img src="https://images.unsplash.com/photo-1559056199-641a0ac8b55e?w=400&h=300&fit=crop&q=80" alt="Mate Tradicional Correntino" class="card-img">
                             <div class="card-content">
-                                <h4>Premium</h4>
-                                <p>El máximo nivel de detalle y artesanía</p>
+                                <h4>Tradicional Correntino</h4>
+                                <p>Porongo natural con boca y base de alpaca con diseños típicos. Incluye personalización con iniciales.</p>
+                            </div>
+                        </div>
+                        <div class="option-card-img" data-value="premium" data-price="50000">
+                            <img src="https://images.unsplash.com/photo-1578985545062-69928b1d9587?w=400&h=300&fit=crop&q=80" alt="Mate Premium Personalizado" class="card-img">
+                            <div class="card-content">
+                                <h4>Premium Personalizado</h4>
+                                <p>Porongo forrado en cuero con boca y base de alpaca con diseño. Incluye personalización con iniciales o logo.</p>
                             </div>
                         </div>
                     </div>
                     <div class="step-navigation">
-                        <button type="button" class="btn-prev" onclick="prevStep()">← Anterior</button>
                         <button type="button" class="btn-next" onclick="nextStep()" disabled>Siguiente →</button>
                     </div>
                 </div>
 
-                <!-- Paso 3: Letras -->
-                <div class="config-step" id="step3">
+                <!-- Paso 2: Letras -->
+                <div class="config-step" id="step2">
                     <h3>Personalizá con letras en las ligas</h3>
                     <div class="options-grid letter-options">
                         <div class="option-card simple-card" data-value="sin" data-price="0">
@@ -217,7 +181,7 @@
                             <div class="option-icon-large">🔤</div>
                             <div class="card-content">
                                 <h4>Con Letras</h4>
-                                <p>Hasta 3 caracteres en alpaca</p>
+                                <p>Hasta 3 caracteres en alpaca (+$2.500)</p>
                             </div>
                         </div>
                     </div>
@@ -233,8 +197,8 @@
                     </div>
                 </div>
 
-                <!-- Paso 4: Bombilla -->
-                <div class="config-step" id="step4">
+                <!-- Paso 3: Bombilla -->
+                <div class="config-step" id="step3">
                     <h3>Elegí tu bombilla</h3>
                     <div class="options-grid bombilla-options">
                         <div class="option-card-img" data-value="recta" data-price="4000">
@@ -258,8 +222,8 @@
                     </div>
                 </div>
 
-                <!-- Paso 5: Resumen y Formulario -->
-                <div class="config-step" id="step5">
+                <!-- Paso 4: Resumen y Formulario -->
+                <div class="config-step" id="step4">
                     <div class="summary-form-container">
                         <div class="order-summary">
                             <h3>Resumen de tu Mate</h3>
