@@ -1020,3 +1020,98 @@ h1, h2, h3, h4 {
         border-bottom: 1px solid var(--verde-palido);
     }
 }
+
+/* ============================
+   SUB-SECCIONES DEL CONFIGURADOR
+   ============================ */
+
+.config-subsection {
+    margin-bottom: 40px;
+    padding-bottom: 30px;
+    border-bottom: 1px solid var(--verde-menta);
+}
+
+.config-subsection:last-of-type {
+    border-bottom: none;
+    margin-bottom: 0;
+}
+
+.subsection-title {
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: var(--verde-medio);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-bottom: 20px;
+    padding-left: 4px;
+    border-left: 3px solid var(--dorado);
+    padding-left: 10px;
+}
+
+.options-grid-3 {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+    margin-bottom: 0;
+}
+
+.options-grid-4 {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
+    margin-bottom: 0;
+}
+
+.text-input-group {
+    text-align: center;
+    margin-top: 20px;
+    background: white;
+    padding: 20px;
+    border-radius: 15px;
+    box-shadow: var(--sombra-suave);
+    max-width: 400px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.text-input-group label {
+    display: block;
+    margin-bottom: 10px;
+    color: var(--gris-oscuro);
+    font-weight: 600;
+    font-size: 0.95rem;
+}
+
+.text-input-group input {
+    padding: 12px 20px;
+    font-size: 1.2rem;
+    text-align: center;
+    text-transform: uppercase;
+    border: 2px solid var(--verde-menta);
+    border-radius: 10px;
+    width: 100%;
+    max-width: 280px;
+    letter-spacing: 3px;
+    transition: var(--transicion);
+    font-family: 'Space Grotesk', sans-serif;
+}
+
+.text-input-group input:focus {
+    outline: none;
+    border-color: var(--verde-medio);
+    box-shadow: 0 0 0 4px rgba(45, 106, 79, 0.1);
+}
+
+@media (max-width: 768px) {
+    .options-grid-3,
+    .options-grid-4 {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 480px) {
+    .options-grid-3,
+    .options-grid-4 {
+        grid-template-columns: 1fr;
+    }
+}

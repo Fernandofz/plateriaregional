@@ -118,7 +118,7 @@
                 <div class="progress-line"></div>
                 <div class="progress-step" data-step="2">
                     <div class="step-number">2</div>
-                    <span>Letras</span>
+                    <span>Personalización</span>
                 </div>
                 <div class="progress-line"></div>
                 <div class="progress-step" data-step="3">
@@ -169,31 +169,121 @@
                     </div>
                 </div>
 
-                <!-- Paso 2: Letras -->
+                <!-- Paso 2: Personalización -->
                 <div class="config-step" id="step2">
-                    <h3>Personalizá con letras en las ligas</h3>
-                    <div class="options-grid letter-options">
-                        <div class="option-card simple-card" data-value="sin" data-price="0">
-                            <div class="option-icon-large">🚫</div>
-                            <div class="card-content">
-                                <h4>Sin Letras</h4>
-                                <p>Diseño limpio sin personalización</p>
-                                <span class="card-price">Incluido</span>
+                    <h3>Personalizá tu mate</h3>
+
+                    <!-- Sub-sección: Lazos y hebilla -->
+                    <div class="config-subsection">
+                        <h4 class="subsection-title">Lazos y hebilla</h4>
+                        <div class="options-grid options-grid-4" data-group="lazos">
+                            <div class="option-card simple-card" data-category="lazos" data-value="simple" data-price="0">
+                                <div class="option-icon-large">🎀</div>
+                                <div class="card-content">
+                                    <h4>Simple</h4>
+                                    <p>Sin grabado</p>
+                                    <span class="card-price">Incluido</span>
+                                </div>
+                            </div>
+                            <div class="option-card simple-card" data-category="lazos" data-value="letras" data-price-clasico="5000" data-price-tradicional="5000" data-price-premium="0">
+                                <div class="option-icon-large">🔤</div>
+                                <div class="card-content">
+                                    <h4>1 a 3 letras</h4>
+                                    <p>Iniciales grabadas en alpaca</p>
+                                    <span class="card-price" id="precio-lazos-letras">+$5.000</span>
+                                </div>
+                            </div>
+                            <div class="option-card simple-card" data-category="lazos" data-value="nombre" data-price="5000">
+                                <div class="option-icon-large">✍️</div>
+                                <div class="card-content">
+                                    <h4>Nombre (hasta 5 letras)</h4>
+                                    <p>Nombre personalizado en alpaca</p>
+                                    <span class="card-price">+$5.000</span>
+                                </div>
+                            </div>
+                            <div class="option-card simple-card" data-category="lazos" data-value="nombre-logo" data-price="7500">
+                                <div class="option-icon-large">🏅</div>
+                                <div class="card-content">
+                                    <h4>Nombre + logo</h4>
+                                    <p>Nombre hasta 5 letras y logo</p>
+                                    <span class="card-price">+$7.500</span>
+                                </div>
                             </div>
                         </div>
-                        <div class="option-card simple-card" data-value="con" data-price="2500">
-                            <div class="option-icon-large">🔤</div>
-                            <div class="card-content">
-                                <h4>Con Letras</h4>
-                                <p>Hasta 3 caracteres en alpaca</p>
-                                <span class="card-price">+$2.500</span>
-                            </div>
+                        <div class="text-input-group hidden" id="lazosTextoGroup">
+                            <label>Ingresá las letras / nombre:</label>
+                            <input type="text" id="lazosTexto" maxlength="5" placeholder="ej: ABC o María">
                         </div>
                     </div>
 
-                    <div class="letter-input hidden" id="ligasLetraInput">
-                        <label>Ingresá tus iniciales (máx 3):</label>
-                        <input type="text" id="letrasTexto" maxlength="3" placeholder="ABC">
+                    <!-- Sub-sección: Boca -->
+                    <div class="config-subsection">
+                        <h4 class="subsection-title">Boca</h4>
+                        <div class="options-grid options-grid-3" data-group="boca">
+                            <div class="option-card simple-card" data-category="boca" data-value="lisa" data-price="0">
+                                <div class="option-icon-large">⭕</div>
+                                <div class="card-content">
+                                    <h4>Lisa</h4>
+                                    <p>Acabado liso tradicional</p>
+                                    <span class="card-price">Incluido</span>
+                                </div>
+                            </div>
+                            <div class="option-card simple-card" data-category="boca" data-value="lisa-nombre" data-price="3000">
+                                <div class="option-icon-large">🔡</div>
+                                <div class="card-content">
+                                    <h4>Lisa con nombre</h4>
+                                    <p>Boca lisa con nombre grabado</p>
+                                    <span class="card-price">+$3.000</span>
+                                </div>
+                            </div>
+                            <div class="option-card simple-card" data-category="boca" data-value="labrada" data-price="2000">
+                                <div class="option-icon-large">🌿</div>
+                                <div class="card-content">
+                                    <h4>Labrada</h4>
+                                    <p>Diseño tallado en alpaca</p>
+                                    <span class="card-price">+$2.000</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="text-input-group hidden" id="bocaNombreGroup">
+                            <label>Ingresá el nombre para la boca:</label>
+                            <input type="text" id="bocaNombre" maxlength="10" placeholder="ej: Juan">
+                        </div>
+                    </div>
+
+                    <!-- Sub-sección: Base -->
+                    <div class="config-subsection">
+                        <h4 class="subsection-title">Base</h4>
+                        <div class="options-grid options-grid-3" data-group="base">
+                            <div class="option-card simple-card" data-category="base" data-value="lisa" data-price="0">
+                                <div class="option-icon-large">🔵</div>
+                                <div class="card-content">
+                                    <h4>Lisa</h4>
+                                    <p>Acabado liso tradicional</p>
+                                    <span class="card-price">Incluido</span>
+                                </div>
+                            </div>
+                            <div class="option-card simple-card" data-category="base" data-value="lisa-nombre" data-price="3000">
+                                <div class="option-icon-large">🔡</div>
+                                <div class="card-content">
+                                    <h4>Lisa con nombre</h4>
+                                    <p>Base lisa con nombre grabado</p>
+                                    <span class="card-price">+$3.000</span>
+                                </div>
+                            </div>
+                            <div class="option-card simple-card" data-category="base" data-value="labrada" data-price="2000">
+                                <div class="option-icon-large">🌾</div>
+                                <div class="card-content">
+                                    <h4>Labrada</h4>
+                                    <p>Diseño tallado en alpaca</p>
+                                    <span class="card-price">+$2.000</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="text-input-group hidden" id="baseNombreGroup">
+                            <label>Ingresá el nombre para la base:</label>
+                            <input type="text" id="baseNombre" maxlength="10" placeholder="ej: Juan">
+                        </div>
                     </div>
 
                     <div class="step-navigation">
@@ -205,24 +295,107 @@
                 <!-- Paso 3: Bombilla -->
                 <div class="config-step" id="step3">
                     <h3>Elegí tu bombilla</h3>
-                    <div class="options-grid bombilla-options">
-                        <div class="option-card-img" data-value="recta" data-price="4000">
-                            <img src="https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=400&h=300&fit=crop&q=80" alt="Bombilla Recta" class="card-img">
-                            <div class="card-content">
-                                <h4>Recta</h4>
-                                <p>Diseño tradicional y directo</p>
-                                <span class="card-price">$4.000</span>
+
+                    <!-- Sub-sección 1: Forma (obligatorio) -->
+                    <div class="config-subsection">
+                        <h4 class="subsection-title">Forma</h4>
+                        <div class="options-grid bombilla-options" data-group="forma">
+                            <div class="option-card-img" data-category="forma" data-value="recta" data-price="4000">
+                                <img src="https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=400&h=300&fit=crop&q=80" alt="Bombilla Recta" class="card-img">
+                                <div class="card-content">
+                                    <h4>Recta</h4>
+                                    <p>Diseño tradicional y directo</p>
+                                    <span class="card-price">$4.000</span>
+                                </div>
                             </div>
-                        </div>
-                        <div class="option-card-img" data-value="curvada" data-price="4500">
-                            <img src="https://images.unsplash.com/photo-1556909172-54557c7e4fb7?w=400&h=300&fit=crop&q=80" alt="Bombilla Curvada" class="card-img">
-                            <div class="card-content">
-                                <h4>Curvada</h4>
-                                <p>Mayor comodidad al cebar</p>
-                                <span class="card-price">$4.500</span>
+                            <div class="option-card-img" data-category="forma" data-value="curvada" data-price="4500">
+                                <img src="https://images.unsplash.com/photo-1556909172-54557c7e4fb7?w=400&h=300&fit=crop&q=80" alt="Bombilla Curvada" class="card-img">
+                                <div class="card-content">
+                                    <h4>Curvada</h4>
+                                    <p>Mayor comodidad al cebar</p>
+                                    <span class="card-price">$4.500</span>
+                                </div>
                             </div>
                         </div>
                     </div>
+
+                    <!-- Sub-sección 2: Esferas -->
+                    <div class="config-subsection">
+                        <h4 class="subsection-title">Esferas decorativas</h4>
+                        <div class="options-grid options-grid-3" data-group="esferas">
+                            <div class="option-card simple-card" data-category="esferas" data-value="simple" data-price="0">
+                                <div class="option-icon-large">➖</div>
+                                <div class="card-content">
+                                    <h4>Sin esferas</h4>
+                                    <p>Bombilla tradicional</p>
+                                    <span class="card-price">Incluido</span>
+                                </div>
+                            </div>
+                            <div class="option-card simple-card" data-category="esferas" data-value="1-esfera" data-price="1000">
+                                <div class="option-icon-large">🔮</div>
+                                <div class="card-content">
+                                    <h4>1 esfera</h4>
+                                    <p>Una esfera decorativa en alpaca</p>
+                                    <span class="card-price">+$1.000</span>
+                                </div>
+                            </div>
+                            <div class="option-card simple-card" data-category="esferas" data-value="2-esferas" data-price="2000">
+                                <div class="option-icon-large">✨</div>
+                                <div class="card-content">
+                                    <h4>2 esferas</h4>
+                                    <p>Dos esferas decorativas en alpaca</p>
+                                    <span class="card-price">+$2.000</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Sub-sección 3: Tipo -->
+                    <div class="config-subsection">
+                        <h4 class="subsection-title">Tipo de filtro</h4>
+                        <div class="options-grid options-grid-3" data-group="tipo-bombilla">
+                            <div class="option-card simple-card" data-category="tipo-bombilla" data-value="tradicional" data-price="0">
+                                <div class="option-icon-large">🧉</div>
+                                <div class="card-content">
+                                    <h4>Tradicional</h4>
+                                    <p>Filtro clásico argentino</p>
+                                    <span class="card-price">Incluido</span>
+                                </div>
+                            </div>
+                            <div class="option-card simple-card" data-category="tipo-bombilla" data-value="uruguaya" data-price="0">
+                                <div class="option-icon-large">🌀</div>
+                                <div class="card-content">
+                                    <h4>Uruguaya</h4>
+                                    <p>Filtro estilo uruguayo</p>
+                                    <span class="card-price">Incluido</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Sub-sección 4: Logo en bombilla -->
+                    <div class="config-subsection">
+                        <h4 class="subsection-title">Logo en bombilla</h4>
+                        <div class="options-grid options-grid-3" data-group="logo-bombilla">
+                            <div class="option-card simple-card" data-category="logo-bombilla" data-value="sin-logo" data-price="0">
+                                <div class="option-icon-large">🚫</div>
+                                <div class="card-content">
+                                    <h4>Sin logo</h4>
+                                    <p>Bombilla sin grabado</p>
+                                    <span class="card-price">Incluido</span>
+                                </div>
+                            </div>
+                            <div class="option-card simple-card" data-category="logo-bombilla" data-value="con-logo" data-price="2500">
+                                <div class="option-icon-large">🏅</div>
+                                <div class="card-content">
+                                    <h4>Con logo</h4>
+                                    <p>Logo grabado en la bombilla</p>
+                                    <span class="card-price">+$2.500</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
                     <div class="step-navigation">
                         <button type="button" class="btn-prev" onclick="prevStep()">← Anterior</button>
                         <button type="button" class="btn-next" onclick="nextStep()" disabled>Ver Resumen →</button>

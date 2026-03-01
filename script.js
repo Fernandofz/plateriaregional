@@ -1,5 +1,5 @@
 // ============================
-// MATES DEL IBERÁ - JavaScript
+// PLATERÍA REGIONAL - JavaScript
 // Configurador de Mate
 // ============================
 
@@ -9,25 +9,57 @@ const state = {
     totalSteps: 4,
     selections: {
         modelo: { value: null, price: 0 },
-        letra: { value: 'sin', text: '', price: 0 },
-        bombilla: { value: null, price: 0 }
+        // Personalización (Paso 2)
+        lazos: { value: 'simple', price: 0, text: '' },
+        boca: { value: 'lisa', price: 0, text: '' },
+        base: { value: 'lisa', price: 0, text: '' },
+        // Bombilla (Paso 3)
+        bombillaForma: { value: null, price: 0 },
+        bombillaEsferas: { value: 'simple', price: 0 },
+        bombillaTipo: { value: 'tradicional', price: 0 },
+        bombillaLogo: { value: 'sin-logo', price: 0 }
     }
 };
 
-// Precios de referencia para el resumen (etiquetas)
-const priceLabels = {
+// Etiquetas para el resumen
+const labels = {
     modelo: {
         clasico: 'Clásico',
         tradicional: 'Tradicional Correntino',
         premium: 'Premium Personalizado'
     },
-    letra: {
-        sin: 'Sin letras en ligas',
-        con: 'Con letras en ligas'
+    lazos: {
+        simple: 'Simple',
+        letras: '1 a 3 letras',
+        nombre: 'Nombre',
+        'nombre-logo': 'Nombre + logo'
     },
-    bombilla: {
-        recta: 'Bombilla Recta',
-        curvada: 'Bombilla Curvada'
+    boca: {
+        lisa: 'Lisa',
+        'lisa-nombre': 'Lisa con nombre',
+        labrada: 'Labrada'
+    },
+    base: {
+        lisa: 'Lisa',
+        'lisa-nombre': 'Lisa con nombre',
+        labrada: 'Labrada'
+    },
+    bombillaForma: {
+        recta: 'Recta',
+        curvada: 'Curvada'
+    },
+    bombillaEsferas: {
+        simple: 'Sin esferas',
+        '1-esfera': '1 esfera',
+        '2-esferas': '2 esferas'
+    },
+    bombillaTipo: {
+        tradicional: 'Tradicional',
+        uruguaya: 'Uruguaya'
+    },
+    bombillaLogo: {
+        'sin-logo': 'Sin logo',
+        'con-logo': 'Con logo'
     }
 };
 
@@ -35,101 +67,227 @@ const priceLabels = {
 document.addEventListener('DOMContentLoaded', () => {
     initializeConfigurator();
     initializeForm();
-    updatePrice();
+    // Pre-select defaults for paso 2 & 3
+    preselectDefaults();
 });
+
+function preselectDefaults() {
+    // Paso 2 defaults
+    const defaultsP2 = [
+        { category: 'lazos', value: 'simple' },
+        { category: 'boca', value: 'lisa' },
+        { category: 'base', value: 'lisa' }
+    ];
+    defaultsP2.forEach(({ category, value }) => {
+        const card = document.querySelector(`#step2 [data-category="${category}"][data-value="${value}"]`);
+        if (card) {
+            card.classList.add('selected');
+        }
+    });
+
+    // Paso 3 defaults (esferas, tipo, logo — but NOT forma)
+    const defaultsP3 = [
+        { category: 'esferas', value: 'simple' },
+        { category: 'tipo-bombilla', value: 'tradicional' },
+        { category: 'logo-bombilla', value: 'sin-logo' }
+    ];
+    defaultsP3.forEach(({ category, value }) => {
+        const card = document.querySelector(`#step3 [data-category="${category}"][data-value="${value}"]`);
+        if (card) {
+            card.classList.add('selected');
+        }
+    });
+}
 
 // Inicializar el configurador
 function initializeConfigurator() {
-    // Event listeners para las tarjetas de opciones (con imagen y simples)
     const allCards = document.querySelectorAll('.option-card-img, .option-card');
-    
     allCards.forEach(card => {
-        card.addEventListener('click', function() {
+        card.addEventListener('click', function () {
             handleOptionSelect(this);
         });
     });
 
-    // Event listener para el input de letras
-    const letrasInput = document.getElementById('letrasTexto');
-    if (letrasInput) {
-        letrasInput.addEventListener('input', function() {
-            state.selections.letra.text = this.value.toUpperCase();
+    // Text inputs — sync to state
+    const lazosTexto = document.getElementById('lazosTexto');
+    if (lazosTexto) {
+        lazosTexto.addEventListener('input', function () {
+            state.selections.lazos.text = this.value;
+        });
+    }
+
+    const bocaNombre = document.getElementById('bocaNombre');
+    if (bocaNombre) {
+        bocaNombre.addEventListener('input', function () {
+            state.selections.boca.text = this.value;
+        });
+    }
+
+    const baseNombre = document.getElementById('baseNombre');
+    if (baseNombre) {
+        baseNombre.addEventListener('input', function () {
+            state.selections.base.text = this.value;
         });
     }
 }
 
 // Manejar selección de opciones
 function handleOptionSelect(card) {
+    const category = card.dataset.category;
     const value = card.dataset.value;
-    const price = parseInt(card.dataset.price) || 0;
-    
-    // Identificar en qué paso estamos según el contenedor
     const stepContainer = card.closest('.config-step');
-    const stepId = stepContainer.id;
 
-    // Lógica por paso
-    if (stepId === 'step1') {
-        // Paso 1: Modelo
-        document.querySelectorAll('#step1 .option-card-img').forEach(c => { c.classList.remove('selected'); });
+    // --- PASO 1: Modelo ---
+    if (stepContainer.id === 'step1') {
+        document.querySelectorAll('#step1 .option-card-img').forEach(c => {
+            c.classList.remove('selected');
+        });
         card.classList.add('selected');
-        
-        state.selections.modelo = { value: value, price: price };
-        
-        // Habilitar siguiente
+
+        const price = parseInt(card.dataset.price) || 0;
+        state.selections.modelo = { value, price };
+
+        // Update dynamic lazos-letras price label
+        updateLazosLetrasLabel();
+
         document.querySelector('#step1 .btn-next').disabled = false;
+        return;
     }
-    else if (stepId === 'step2') {
-        // Paso 2: Letras
-        document.querySelectorAll('#step2 .option-card').forEach(c => { c.classList.remove('selected'); });
+
+    // --- PASO 2: Personalización ---
+    if (category === 'lazos') {
+        document.querySelectorAll('#step2 [data-category="lazos"]').forEach(c => {
+            c.classList.remove('selected');
+        });
         card.classList.add('selected');
-        
-        state.selections.letra.value = value;
-        state.selections.letra.price = price;
-        
-        // Mostrar/ocultar input
-        const inputContainer = document.getElementById('ligasLetraInput');
-        if (value === 'con') {
-            inputContainer.classList.remove('hidden');
+
+        // Dynamic price for "letras" based on modelo
+        let price;
+        if (value === 'letras') {
+            price = state.selections.modelo.value === 'premium' ? 0 : 5000;
         } else {
-            inputContainer.classList.add('hidden');
-            state.selections.letra.text = ''; // Limpiar texto si selecciona "sin"
-            document.getElementById('letrasTexto').value = '';
+            price = parseInt(card.dataset.price) || 0;
+        }
+
+        state.selections.lazos.value = value;
+        state.selections.lazos.price = price;
+
+        // Show/hide text input
+        const lazosGroup = document.getElementById('lazosTextoGroup');
+        if (value !== 'simple') {
+            lazosGroup.classList.remove('hidden');
+        } else {
+            lazosGroup.classList.add('hidden');
+            state.selections.lazos.text = '';
+            document.getElementById('lazosTexto').value = '';
         }
     }
-    else if (stepId === 'step3') {
-        // Paso 3: Bombilla
-        document.querySelectorAll('#step3 .option-card-img').forEach(c => { c.classList.remove('selected'); });
+
+    else if (category === 'boca') {
+        document.querySelectorAll('#step2 [data-category="boca"]').forEach(c => {
+            c.classList.remove('selected');
+        });
         card.classList.add('selected');
-        
-        state.selections.bombilla = { value: value, price: price };
-        
-        // Habilitar botón para ir al resumen
+
+        const price = parseInt(card.dataset.price) || 0;
+        state.selections.boca.value = value;
+        state.selections.boca.price = price;
+
+        const bocaGroup = document.getElementById('bocaNombreGroup');
+        if (value === 'lisa-nombre') {
+            bocaGroup.classList.remove('hidden');
+        } else {
+            bocaGroup.classList.add('hidden');
+            state.selections.boca.text = '';
+            document.getElementById('bocaNombre').value = '';
+        }
+    }
+
+    else if (category === 'base') {
+        document.querySelectorAll('#step2 [data-category="base"]').forEach(c => {
+            c.classList.remove('selected');
+        });
+        card.classList.add('selected');
+
+        const price = parseInt(card.dataset.price) || 0;
+        state.selections.base.value = value;
+        state.selections.base.price = price;
+
+        const baseGroup = document.getElementById('baseNombreGroup');
+        if (value === 'lisa-nombre') {
+            baseGroup.classList.remove('hidden');
+        } else {
+            baseGroup.classList.add('hidden');
+            state.selections.base.text = '';
+            document.getElementById('baseNombre').value = '';
+        }
+    }
+
+    // --- PASO 3: Bombilla ---
+    else if (category === 'forma') {
+        document.querySelectorAll('#step3 [data-category="forma"]').forEach(c => {
+            c.classList.remove('selected');
+        });
+        card.classList.add('selected');
+
+        const price = parseInt(card.dataset.price) || 0;
+        state.selections.bombillaForma = { value, price };
+
+        // Unlock "Ver Resumen"
         document.querySelector('#step3 .btn-next').disabled = false;
     }
 
-    // Calcular precio total (actualizado en memoria para el resumen)
+    else if (category === 'esferas') {
+        document.querySelectorAll('#step3 [data-category="esferas"]').forEach(c => {
+            c.classList.remove('selected');
+        });
+        card.classList.add('selected');
+
+        const price = parseInt(card.dataset.price) || 0;
+        state.selections.bombillaEsferas = { value, price };
+    }
+
+    else if (category === 'tipo-bombilla') {
+        document.querySelectorAll('#step3 [data-category="tipo-bombilla"]').forEach(c => {
+            c.classList.remove('selected');
+        });
+        card.classList.add('selected');
+
+        state.selections.bombillaTipo = { value, price: 0 };
+    }
+
+    else if (category === 'logo-bombilla') {
+        document.querySelectorAll('#step3 [data-category="logo-bombilla"]').forEach(c => {
+            c.classList.remove('selected');
+        });
+        card.classList.add('selected');
+
+        const price = parseInt(card.dataset.price) || 0;
+        state.selections.bombillaLogo = { value, price };
+    }
+}
+
+// Actualizar label dinámico de "1 a 3 letras" en lazos
+function updateLazosLetrasLabel() {
+    const el = document.getElementById('precio-lazos-letras');
+    if (!el) return;
+    const isPremium = state.selections.modelo.value === 'premium';
+    el.textContent = isPremium ? 'Incluido' : '+$5.000';
 }
 
 // Calcular precio total
 function calculateTotal() {
-    let total = 0;
-    
-    if (state.selections.modelo.price) total += state.selections.modelo.price;
-    if (state.selections.letra.price) total += state.selections.letra.price;
-    if (state.selections.bombilla.price) total += state.selections.bombilla.price;
-    
-    return total;
-}
-
-// Actualizar visualización del precio (en el resumen)
-function updatePrice() {
-    const total = calculateTotal();
-    const formattedPrice = formatPrice(total);
-    
-    const totalPriceEl = document.getElementById('totalPrice');
-    if (totalPriceEl) {
-        totalPriceEl.textContent = formattedPrice;
-    }
+    const s = state.selections;
+    return (
+        s.modelo.price +
+        s.lazos.price +
+        s.boca.price +
+        s.base.price +
+        (s.bombillaForma ? s.bombillaForma.price : 0) +
+        (s.bombillaEsferas ? s.bombillaEsferas.price : 0) +
+        (s.bombillaTipo ? s.bombillaTipo.price : 0) +
+        (s.bombillaLogo ? s.bombillaLogo.price : 0)
+    );
 }
 
 // Formatear precio
@@ -139,36 +297,32 @@ function formatPrice(price) {
 
 // Navegación entre pasos
 function nextStep() {
-    if (state.currentStep < state.totalSteps) {
-        // Validaciones
-        if (state.currentStep === 1 && !state.selections.modelo.value) return;
-        if (state.currentStep === 3 && !state.selections.bombilla.value) return;
-        
-        // Si vamos al paso 4 (Resumen), generar contenido
-        if (state.currentStep === 3) {
-            generateSummary();
-            updatePrice();
-        }
+    if (state.currentStep >= state.totalSteps) return;
 
-        // Cambio de paso UI
-        document.getElementById(`step${state.currentStep}`).classList.remove('active');
-        state.currentStep++;
-        document.getElementById(`step${state.currentStep}`).classList.add('active');
-        
-        updateProgressBar();
-        document.getElementById('configurador').scrollIntoView({ behavior: 'smooth' });
+    if (state.currentStep === 1 && !state.selections.modelo.value) return;
+    if (state.currentStep === 3 && !state.selections.bombillaForma.value) return;
+
+    if (state.currentStep === 3) {
+        generateSummary();
     }
+
+    document.getElementById(`step${state.currentStep}`).classList.remove('active');
+    state.currentStep++;
+    document.getElementById(`step${state.currentStep}`).classList.add('active');
+
+    updateProgressBar();
+    document.getElementById('configurador').scrollIntoView({ behavior: 'smooth' });
 }
 
 function prevStep() {
-    if (state.currentStep > 1) {
-        document.getElementById(`step${state.currentStep}`).classList.remove('active');
-        state.currentStep--;
-        document.getElementById(`step${state.currentStep}`).classList.add('active');
-        
-        updateProgressBar();
-        document.getElementById('configurador').scrollIntoView({ behavior: 'smooth' });
-    }
+    if (state.currentStep <= 1) return;
+
+    document.getElementById(`step${state.currentStep}`).classList.remove('active');
+    state.currentStep--;
+    document.getElementById(`step${state.currentStep}`).classList.add('active');
+
+    updateProgressBar();
+    document.getElementById('configurador').scrollIntoView({ behavior: 'smooth' });
 }
 
 // Actualizar barra de progreso
@@ -176,44 +330,67 @@ function updateProgressBar() {
     document.querySelectorAll('.progress-step').forEach((step, index) => {
         const stepNum = index + 1;
         step.classList.remove('active', 'completed');
-        
-        if (stepNum === state.currentStep) {
-            step.classList.add('active');
-        } else if (stepNum < state.currentStep) {
-            step.classList.add('completed');
-        }
+        if (stepNum === state.currentStep) step.classList.add('active');
+        else if (stepNum < state.currentStep) step.classList.add('completed');
     });
 }
 
 // Generar resumen HTML
 function generateSummary() {
+    const s = state.selections;
     const summaryContent = document.getElementById('summaryContent');
     let html = '';
 
-    // Precio del mate = modelo + letra
-    const precioMate = state.selections.modelo.price + state.selections.letra.price;
+    // Modelo
+    const modeloLabel = labels.modelo[s.modelo.value] || s.modelo.value;
+    html += createSummaryItem('Modelo', modeloLabel, formatPrice(s.modelo.price));
 
-    const modeloLabel = priceLabels.modelo[state.selections.modelo.value] || '';
-    let mateDesc = modeloLabel;
-    if (state.selections.letra.value === 'con') {
-        const letrasTexto = state.selections.letra.text
-            ? ` (${state.selections.letra.text})`
-            : '';
-        mateDesc += ` · Con letras${letrasTexto}`;
+    // Lazos
+    let lazosDesc = labels.lazos[s.lazos.value] || s.lazos.value;
+    if (s.lazos.value !== 'simple' && s.lazos.text) lazosDesc += ` (${s.lazos.text})`;
+    const lazosPrice = s.lazos.price > 0 ? formatPrice(s.lazos.price) : 'Incluido';
+    html += createSummaryItem('Lazos y hebilla', lazosDesc, lazosPrice);
+
+    // Boca
+    let bocaDesc = labels.boca[s.boca.value] || s.boca.value;
+    if (s.boca.value === 'lisa-nombre' && s.boca.text) bocaDesc += ` (${s.boca.text})`;
+    const bocaPrice = s.boca.price > 0 ? formatPrice(s.boca.price) : 'Incluido';
+    html += createSummaryItem('Boca', bocaDesc, bocaPrice);
+
+    // Base
+    let baseDesc = labels.base[s.base.value] || s.base.value;
+    if (s.base.value === 'lisa-nombre' && s.base.text) baseDesc += ` (${s.base.text})`;
+    const basePrice = s.base.price > 0 ? formatPrice(s.base.price) : 'Incluido';
+    html += createSummaryItem('Base', baseDesc, basePrice);
+
+    // Bombilla - Forma
+    if (s.bombillaForma && s.bombillaForma.value) {
+        html += createSummaryItem('Bombilla', labels.bombillaForma[s.bombillaForma.value], formatPrice(s.bombillaForma.price));
     }
 
-    html += createSummaryItem('Mate', mateDesc, formatPrice(precioMate));
+    // Bombilla - Esferas
+    if (s.bombillaEsferas && s.bombillaEsferas.value !== 'simple') {
+        const esfPrice = s.bombillaEsferas.price > 0 ? formatPrice(s.bombillaEsferas.price) : 'Incluido';
+        html += createSummaryItem('Esferas', labels.bombillaEsferas[s.bombillaEsferas.value], esfPrice);
+    }
 
-    // Bombilla
-    if (state.selections.bombilla.value) {
-        html += createSummaryItem(
-            'Bombilla',
-            priceLabels.bombilla[state.selections.bombilla.value],
-            formatPrice(state.selections.bombilla.price)
-        );
+    // Bombilla - Tipo
+    if (s.bombillaTipo && s.bombillaTipo.value) {
+        html += createSummaryItem('Tipo filtro', labels.bombillaTipo[s.bombillaTipo.value], 'Incluido');
+    }
+
+    // Bombilla - Logo
+    if (s.bombillaLogo && s.bombillaLogo.value === 'con-logo') {
+        html += createSummaryItem('Logo bombilla', 'Con logo', formatPrice(s.bombillaLogo.price));
     }
 
     summaryContent.innerHTML = html;
+
+    // Update total
+    const totalEl = document.getElementById('totalPrice');
+    if (totalEl) {
+        totalEl.textContent = formatPrice(calculateTotal());
+    }
 }
 
 function createSummaryItem(label, description, value) {
@@ -228,64 +405,67 @@ function createSummaryItem(label, description, value) {
     `;
 }
 
-// Inicializar formulario
+// Inicializar formulario (WhatsApp submit)
 function initializeForm() {
     const form = document.getElementById('orderForm');
-    
-    form.addEventListener('submit', function(e) {
+
+    form.addEventListener('submit', function (e) {
         e.preventDefault();
-        
-        // Recopilar datos
-        const formData = {
-            cliente: {
-                nombre: document.getElementById('nombre').value,
-                email: document.getElementById('email').value,
-                telefono: document.getElementById('telefono').value,
-                direccion: document.getElementById('direccion').value,
-                ciudad: document.getElementById('ciudad').value,
-                comentarios: document.getElementById('comentarios').value
-            },
-            pedido: {
-                modelo: state.selections.modelo.value,
-                letras: state.selections.letra.value === 'con' ? state.selections.letra.text : 'No',
-                bombilla: state.selections.bombilla.value,
-                total: calculateTotal()
-            }
-        };
-        
-        // Armar mensaje de WhatsApp
-        const nombre = formData.cliente.nombre;
-        const modelo = priceLabels.modelo[formData.pedido.modelo] || formData.pedido.modelo;
-        const bombilla = priceLabels.bombilla[formData.pedido.bombilla] || formData.pedido.bombilla;
-        const letras = state.selections.letra.value === 'con'
-            ? `Con letras: ${state.selections.letra.text || '(a confirmar)'}`
-            : 'Sin letras';
-        const precioMate = state.selections.modelo.price + state.selections.letra.price;
-        const ciudad = formData.cliente.ciudad ? `\n📍 Ciudad: ${formData.cliente.ciudad}` : '';
-        const direccion = formData.cliente.direccion ? `\n🏠 Dirección: ${formData.cliente.direccion}` : '';
-        const comentarios = formData.cliente.comentarios ? `\n💬 Comentarios: ${formData.cliente.comentarios}` : '';
+
+        const s = state.selections;
+        const nombre = document.getElementById('nombre').value;
+        const telefono = document.getElementById('telefono').value;
+        const email = document.getElementById('email').value;
+        const direccion = document.getElementById('direccion').value;
+        const ciudad = document.getElementById('ciudad').value;
+        const comentarios = document.getElementById('comentarios').value;
+
+        // Build details
+        const modeloLabel = labels.modelo[s.modelo.value] || s.modelo.value;
+
+        let lazosDesc = labels.lazos[s.lazos.value] || s.lazos.value;
+        if (s.lazos.value !== 'simple' && s.lazos.text) lazosDesc += ` (${s.lazos.text})`;
+
+        let bocaDesc = labels.boca[s.boca.value] || s.boca.value;
+        if (s.boca.value === 'lisa-nombre' && s.boca.text) bocaDesc += ` (${s.boca.text})`;
+
+        let baseDesc = labels.base[s.base.value] || s.base.value;
+        if (s.base.value === 'lisa-nombre' && s.base.text) baseDesc += ` (${s.base.text})`;
+
+        const formaLabel = s.bombillaForma ? (labels.bombillaForma[s.bombillaForma.value] || s.bombillaForma.value) : '-';
+        const esfLabel = s.bombillaEsferas ? (labels.bombillaEsferas[s.bombillaEsferas.value] || s.bombillaEsferas.value) : 'Sin esferas';
+        const tipoLabel = s.bombillaTipo ? (labels.bombillaTipo[s.bombillaTipo.value] || s.bombillaTipo.value) : 'Tradicional';
+        const logoLabel = s.bombillaLogo && s.bombillaLogo.value === 'con-logo' ? 'Con logo (+$2.500)' : 'Sin logo';
+
+        const ciudadLine = ciudad ? `\n📍 Ciudad: ${ciudad}` : '';
+        const direccionLine = direccion ? `\n🏠 Dirección: ${direccion}` : '';
+        const comentariosLine = comentarios ? `\n💬 Comentarios: ${comentarios}` : '';
 
         const mensaje =
 `¡Hola! Quiero encargar un mate personalizado 🧉
 
 👤 Nombre: ${nombre}
-📱 Teléfono: ${formData.cliente.telefono}
-📧 Email: ${formData.cliente.email}${ciudad}${direccion}
+📱 Teléfono: ${telefono}
+📧 Email: ${email}${ciudadLine}${direccionLine}
 
 📦 *Detalle del pedido:*
-• Mate: ${modelo} · ${letras} — ${formatPrice(precioMate)}
-• Bombilla: ${bombilla} — ${formatPrice(state.selections.bombilla.price)}
+• Modelo: ${modeloLabel} — ${formatPrice(s.modelo.price)}
+• Lazos y hebilla: ${lazosDesc} — ${s.lazos.price > 0 ? formatPrice(s.lazos.price) : 'Incluido'}
+• Boca: ${bocaDesc} — ${s.boca.price > 0 ? formatPrice(s.boca.price) : 'Incluido'}
+• Base: ${baseDesc} — ${s.base.price > 0 ? formatPrice(s.base.price) : 'Incluido'}
+• Bombilla (${formaLabel}) — ${s.bombillaForma ? formatPrice(s.bombillaForma.price) : '-'}
+• Esferas: ${esfLabel} — ${s.bombillaEsferas && s.bombillaEsferas.price > 0 ? formatPrice(s.bombillaEsferas.price) : 'Incluido'}
+• Tipo filtro: ${tipoLabel}
+• Logo bombilla: ${logoLabel}
 
-💰 *Total estimado: ${formatPrice(calculateTotal())}*${comentarios}`;
+💰 *Total estimado: ${formatPrice(calculateTotal())}*${comentariosLine}`;
 
         form.reset();
-
-        const urlWhatsApp = `https://wa.me/5493794143509?text=${encodeURIComponent(mensaje)}`;
-        window.open(urlWhatsApp, '_blank');
+        window.open(`https://wa.me/5493794143509?text=${encodeURIComponent(mensaje)}`, '_blank');
     });
 }
 
-// Modal functions
+// Modal
 function showModal() {
     document.getElementById('confirmModal').classList.add('active');
 }
@@ -296,43 +476,56 @@ function closeModal() {
 }
 
 function resetConfigurator() {
-    // Reset state
     state.currentStep = 1;
     state.selections = {
         modelo: { value: null, price: 0 },
-        letra: { value: 'sin', text: '', price: 0 },
-        bombilla: { value: null, price: 0 }
+        lazos: { value: 'simple', price: 0, text: '' },
+        boca: { value: 'lisa', price: 0, text: '' },
+        base: { value: 'lisa', price: 0, text: '' },
+        bombillaForma: { value: null, price: 0 },
+        bombillaEsferas: { value: 'simple', price: 0 },
+        bombillaTipo: { value: 'tradicional', price: 0 },
+        bombillaLogo: { value: 'sin-logo', price: 0 }
     };
-    
-    // Reset UI Classes
-    document.querySelectorAll('.option-card-img, .option-card').forEach(c => { c.classList.remove('selected'); });
-    document.querySelectorAll('.config-step').forEach(c => { c.classList.remove('active'); });
-    
-    // Show step 1
+
+    document.querySelectorAll('.option-card-img, .option-card').forEach(c => {
+        c.classList.remove('selected');
+    });
+    document.querySelectorAll('.config-step').forEach(c => {
+        c.classList.remove('active');
+    });
     document.getElementById('step1').classList.add('active');
-    
-    // Hide letter input and clear text
-    document.getElementById('ligasLetraInput').classList.add('hidden');
-    document.getElementById('letrasTexto').value = '';
-    
-    // Disable required-selection next buttons; step 2 is optional so keep it enabled
-    document.querySelectorAll('#step1 .btn-next, #step3 .btn-next').forEach(btn => { btn.disabled = true; });
-    
-    // Reset progress
+
+    // Hide all text groups
+    ['lazosTextoGroup', 'bocaNombreGroup', 'baseNombreGroup'].forEach(id => {
+        const el = document.getElementById(id);
+        if (el) {
+            el.classList.add('hidden');
+        }
+    });
+    // Clear text inputs
+    ['lazosTexto', 'bocaNombre', 'baseNombre'].forEach(id => {
+        const el = document.getElementById(id);
+        if (el) {
+            el.value = '';
+        }
+    });
+
+    // Disable required-selection buttons
+    document.querySelector('#step1 .btn-next').disabled = true;
+    document.querySelector('#step3 .btn-next').disabled = true;
+
+    preselectDefaults();
     updateProgressBar();
-    
-    // Scroll to top
     document.getElementById('inicio').scrollIntoView({ behavior: 'smooth' });
 }
 
-// Smooth scroll (legacy support)
+// Smooth scroll
 document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-    anchor.addEventListener('click', function(e) {
+    anchor.addEventListener('click', function (e) {
         e.preventDefault();
         const target = document.querySelector(this.getAttribute('href'));
-        if (target) {
-            target.scrollIntoView({ behavior: 'smooth' });
-        }
+        if (target) target.scrollIntoView({ behavior: 'smooth' });
     });
 });
 
